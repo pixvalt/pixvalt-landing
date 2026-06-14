@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — PixValt</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0c12; --surface: #10131b; --border: #1c2030;
+      --indigo-lt: #818cf8; --text: #e2e8f0; --muted: #64748b; --radius: 12px;
+    }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.7; -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--indigo-lt); }
+    nav {
+      background: rgba(10,12,18,0.90); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex; align-items: center;
+      max-width: 760px; margin: 0 auto; padding: 16px 24px;
+    }
+    .logo { font-size: 1.3rem; font-weight: 800; color: var(--text); text-decoration: none; }
+    .logo span { color: var(--indigo-lt); }
+    .prose { max-width: 760px; margin: 0 auto; padding: 60px 24px 80px; }
+    h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
+    .date { color: var(--muted); font-size: 0.88rem; margin-bottom: 48px; }
+    h2 { font-size: 1.2rem; font-weight: 700; margin: 36px 0 12px; }
+    p { color: #94a3b8; margin-bottom: 14px; }
+    ul { color: #94a3b8; padding-left: 20px; margin-bottom: 14px; }
+    ul li { margin-bottom: 6px; }
+    strong { color: var(--text); }
+    .highlight {
+      background: rgba(99,102,241,0.08);
+      border: 1px solid rgba(99,102,241,0.22);
+      border-radius: var(--radius);
+      padding: 20px 24px; margin: 32px 0;
+    }
+    .highlight p { color: var(--text); margin: 0; font-weight: 500; }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px; text-align: center;
+      font-size: 0.82rem; color: var(--muted);
+    }
+    footer a { color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">pix<span>valt</span></a>
+  </div>
+</nav>
+
+<div class="prose">
+  <h1>Privacy Policy</h1>
+  <p class="date">Last updated: June 2026</p>
+
+  <div class="highlight">
+    <p>
+      TL;DR — PixValt is engineered so we cannot access your files.
+      Encryption happens on your device, using your key. We never see your photos or videos.
+    </p>
+  </div>
+
+  <h2>1. Who we are</h2>
+  <p>PixValt ("we", "our", "us") is an Android application for encrypted photo and video storage,
+     operated from India. This Privacy Policy explains what information we collect when you visit
+     pixvalt.com and when you use the PixValt app.</p>
+
+  <h2>2. Information we collect</h2>
+
+  <h2>2a. This website (pixvalt.com)</h2>
+  <p>When you join our waitlist we collect:</p>
+  <ul>
+    <li><strong>Your email address</strong> — to notify you when the app launches and send
+        occasional product updates.</li>
+    <li><strong>Basic analytics via Google Analytics 4</strong> — page views, referral source,
+        approximate country. This data is aggregated and not tied to your identity.</li>
+  </ul>
+  <p>We do not sell your email. We do not send marketing emails unrelated to PixValt.</p>
+
+  <h2>2b. The PixValt app</h2>
+  <p>PixValt is designed to collect the absolute minimum:</p>
+  <ul>
+    <li><strong>Your media files</strong> — photos and videos you import are encrypted on your
+        device and never sent to PixValt servers. We have no server that receives your files.</li>
+    <li><strong>Your PIN</strong> — your 6-digit encryption PIN never leaves your device. It is used
+        locally to derive the AES-256 key and is never stored in plaintext.</li>
+    <li><strong>Google Drive</strong> — if you enable Drive backup, your already-encrypted files are
+        uploaded to your own Google Drive account via Google's APIs. The files are encrypted before
+        upload; PixValt cannot read them and neither can Google.</li>
+    <li><strong>Crash reports</strong> — if enabled, anonymised crash logs may be sent to help us
+        fix bugs. These contain no file content, no media, and no personal data.</li>
+  </ul>
+
+  <h2>3. How your encryption key works</h2>
+  <p>PixValt derives your AES-256 encryption key from your 6-digit PIN using PBKDF2-HMAC-SHA256
+     (100,000 iterations). This process runs entirely on your device. Your PIN and key are never
+     transmitted anywhere. This means:</p>
+  <ul>
+    <li>Even if someone obtained your encrypted files, they cannot read them without your PIN.</li>
+    <li>We cannot recover your files if you forget your PIN — there is no server-side key.</li>
+    <li>If you restore from Google Drive on a new device, the same PIN produces the same key and
+        your files are accessible immediately.</li>
+  </ul>
+
+  <h2>4. Third-party services</h2>
+  <ul>
+    <li><strong>Google Drive API</strong> — used only when you choose to back up.
+        Governed by Google's Privacy Policy.</li>
+    <li><strong>Google Analytics 4</strong> — used on this website only. No analytics SDK is
+        included in the app.</li>
+    <li><strong>Beehiiv</strong> — used to manage our email waitlist. Your email is stored in
+        Beehiiv's systems subject to their privacy policy.</li>
+  </ul>
+
+  <h2>5. Data retention</h2>
+  <p>Waitlist emails are retained until you unsubscribe or request deletion. App data lives entirely
+     on your device and in your own Google Drive — we hold no copy of it.</p>
+
+  <h2>6. Your rights</h2>
+  <p>You can request deletion of your waitlist email at any time by emailing
+     <a href="mailto:hello@pixvalt.com">hello@pixvalt.com</a> or clicking Unsubscribe in any
+     email we send you.</p>
+
+  <h2>7. Children</h2>
+  <p>PixValt is not directed at children under 13. We do not knowingly collect information
+     from children.</p>
+
+  <h2>8. Changes to this policy</h2>
+  <p>We may update this policy as the app develops. We will notify waitlist members of material
+     changes by email before they take effect.</p>
+
+  <h2>9. Contact</h2>
+  <p>Questions? Email us at <a href="mailto:hello@pixvalt.com">hello@pixvalt.com</a>.</p>
+</div>
+
+<footer>© 2026 PixValt &nbsp;·&nbsp; <a href="/">Home</a></footer>
+
+</body>
+</html>
