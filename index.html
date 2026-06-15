@@ -687,6 +687,37 @@
     }
     .carousel-btn:hover { background: var(--indigo-dim); border-color: var(--indigo); }
 
+    /* ── Zoom Break ── */
+    #zoom-break {
+      position: relative; height: 500px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; background: var(--bg);
+    }
+    #zoom-canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+    .zoom-text {
+      position: relative; z-index: 2;
+      text-align: center; pointer-events: none;
+      user-select: none;
+    }
+    .zoom-tagline {
+      font-size: clamp(2.4rem, 7vw, 5rem);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.08;
+      color: var(--text);
+    }
+    .zoom-tagline.accent { color: var(--indigo-lt); }
+    .zoom-sub {
+      margin-top: 16px;
+      font-size: 1rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
     /* ── Responsive ── */
     @media (max-width: 700px) {
       section { padding: 64px 0; }
@@ -898,6 +929,16 @@
     </div>
   </div>
 </section>
+
+<!-- ── Infinite Zoom Break ── -->
+<div id="zoom-break">
+  <canvas id="zoom-canvas"></canvas>
+  <div class="zoom-text">
+    <div class="zoom-tagline">Lock it in.</div>
+    <div class="zoom-tagline accent">Forget it's there.</div>
+    <div class="zoom-sub">AES-256 · On-device · Only you.</div>
+  </div>
+</div>
 
 <!-- ── Screenshots ── -->
 <section id="screenshots">
@@ -1417,6 +1458,90 @@
       document.getElementById('counter').style.display = 'flex';
     }
   });
+
+  // ── Infinite Zoom (tunnel) ──
+  (function () {
+    const canvas = document.getElementById('zoom-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let W, H, animId;
+    const N = 12; // concurrent rings
+
+    function resize() {
+      W = canvas.width  = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+
+    // Cross-browser rounded rectangle path
+    function roundRectPath(x, y, w, h, r) {
+      r = Math.max(0, r);
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.arcTo(x + w, y,     x + w, y + r,     r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+      ctx.lineTo(x + r, y + h);
+      ctx.arcTo(x,      y + h, x,        y + h - r, r);
+      ctx.lineTo(x,     y + r);
+      ctx.arcTo(x,      y,     x + r,    y,      r);
+      ctx.closePath();
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      const now = performance.now() / 1000;
+      const cx = W / 2, cy = H / 2;
+
+      for (let i = 0; i < N; i++) {
+        // Each ring is at a different phase of the zoom cycle (0 → 1)
+        const phase = ((now * 0.32 + i / N) % 1);
+        // Exponential zoom: slow start, fast approach
+        const t = Math.pow(phase, 1.9);
+
+        // Phone-shaped ring — starts tiny, grows past edges
+        const baseW = 70, baseH = 140;
+        const sc    = 1 + t * 22;
+        const w     = baseW * sc;
+        const h     = baseH * sc;
+        const r     = Math.max(1, 22 * (1 - t * 0.85));
+
+        // Color shift: indigo (240°) → violet (270°) → cyan (190°)
+        const hue  = phase < 0.5
+          ? 240 + phase * 2 * 50          // 240 → 290
+          : 290 - (phase - 0.5) * 2 * 100; // 290 → 190
+        const lit  = 55 + t * 15;
+
+        // Fade in from nothing, hold, fade out before edge
+        let alpha;
+        if      (phase < 0.07) alpha = phase / 0.07;
+        else if (phase > 0.78) alpha = (1 - phase) / 0.22;
+        else                    alpha = 1;
+        alpha *= 0.6;
+
+        ctx.save();
+        ctx.globalAlpha  = alpha;
+        ctx.strokeStyle  = `hsl(${hue}, 78%, ${lit}%)`;
+        ctx.lineWidth    = Math.max(0.4, 2.5 - t * 2);
+        ctx.shadowColor  = `hsl(${hue}, 80%, ${lit + 10}%)`;
+        ctx.shadowBlur   = 10;
+        roundRectPath(cx - w / 2, cy - h / 2, w, h, r);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      animId = requestAnimationFrame(draw);
+    }
+
+    // Only run while visible — saves battery / CPU on mobile
+    const io = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) { resize(); if (!animId) draw(); }
+      else { cancelAnimationFrame(animId); animId = null; }
+    }, { threshold: 0.05 });
+    io.observe(canvas);
+
+    window.addEventListener('resize', () => { resize(); });
+  })();
 
   // ── Cursor trail (desktop only) ──
   (function () {
