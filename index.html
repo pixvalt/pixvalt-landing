@@ -10,7 +10,6 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pixvalt.com" />
 
-  <!-- Google Analytics 4 — replace G-XXXXXXXXXX with your Measurement ID -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WHNQ4HWNFK"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -23,15 +22,21 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #0a0c12;
-      --surface:   #10131b;
-      --border:    #1c2030;
-      --indigo:    #6366f1;
-      --indigo-lt: #818cf8;
-      --green:     #34d399;
-      --text:      #e2e8f0;
-      --muted:     #64748b;
-      --radius:    12px;
+      --bg:         #080a10;
+      --surface:    #0e1118;
+      --surface2:   #131720;
+      --border:     #1e2435;
+      --indigo:     #6366f1;
+      --indigo-lt:  #818cf8;
+      --indigo-dim: rgba(99,102,241,0.15);
+      --green:      #34d399;
+      --green-dim:  rgba(52,211,153,0.12);
+      --amber:      #fbbf24;
+      --red:        #f87171;
+      --text:       #e2e8f0;
+      --muted:      #64748b;
+      --radius:     12px;
+      --radius-lg:  20px;
     }
 
     html { scroll-behavior: smooth; }
@@ -42,82 +47,33 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
     a { color: var(--indigo-lt); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* ── Layout ── */
-    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
-    section { padding: 80px 0; }
+    .container { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 90px 0; }
 
     /* ── Nav ── */
     nav {
       position: sticky; top: 0; z-index: 99;
-      background: rgba(10,12,18,0.90);
-      backdrop-filter: blur(14px);
+      background: rgba(8,10,16,0.92);
+      backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
     }
     .nav-inner {
       display: flex; align-items: center; justify-content: space-between;
-      max-width: 960px; margin: 0 auto; padding: 16px 24px;
+      max-width: 980px; margin: 0 auto; padding: 14px 24px;
     }
-    .logo {
-      font-size: 1.3rem; font-weight: 800;
-      letter-spacing: -0.5px; color: var(--text);
-    }
+    .logo { font-size: 1.3rem; font-weight: 900; letter-spacing: -0.5px; color: var(--text); }
     .logo span { color: var(--indigo-lt); }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-link { font-size: 0.88rem; color: var(--muted); }
+    .nav-link:hover { color: var(--text); text-decoration: none; }
 
-    /* ── Hero ── */
-    #hero {
-      padding: 110px 0 90px;
-      text-align: center;
-      background:
-        radial-gradient(ellipse 70% 50% at 50% -5%, rgba(99,102,241,0.18) 0%, transparent 70%);
-    }
-    .badge {
-      display: inline-block;
-      background: rgba(99,102,241,0.12);
-      border: 1px solid rgba(99,102,241,0.3);
-      color: var(--indigo-lt);
-      font-size: 0.72rem; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      padding: 5px 14px; border-radius: 999px;
-      margin-bottom: 28px;
-    }
-    h1 {
-      font-size: clamp(2.4rem, 6vw, 4rem);
-      font-weight: 800;
-      letter-spacing: -1.5px;
-      line-height: 1.08;
-      margin-bottom: 22px;
-    }
-    h1 em { font-style: normal; color: var(--indigo-lt); }
-    .hero-sub {
-      font-size: 1.15rem;
-      color: var(--muted);
-      max-width: 500px;
-      margin: 0 auto 44px;
-      line-height: 1.7;
-    }
-
-    /* ── Form ── */
-    .waitlist-form {
-      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
-      max-width: 480px; margin: 0 auto 14px;
-    }
-    .waitlist-form input[type="email"] {
-      flex: 1; min-width: 220px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 13px 18px;
-      border-radius: var(--radius);
-      font-size: 1rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .waitlist-form input[type="email"]:focus { border-color: var(--indigo); }
+    /* ── Buttons ── */
     .btn-primary {
       background: var(--indigo);
       color: #fff; border: none;
@@ -125,121 +81,465 @@
       border-radius: var(--radius);
       font-size: 1rem; font-weight: 700;
       cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
       white-space: nowrap;
+      box-shadow: 0 0 0 0 rgba(99,102,241,0);
     }
-    .btn-primary:hover { background: #5153d4; }
+    .btn-primary:hover {
+      background: #5153d4;
+      box-shadow: 0 0 24px rgba(99,102,241,0.35);
+    }
     .btn-primary:active { transform: scale(0.97); }
 
-    .form-note { font-size: 0.8rem; color: var(--muted); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--indigo-lt);
+      border: 1px solid rgba(99,102,241,0.4);
+      padding: 11px 24px;
+      border-radius: var(--radius);
+      font-size: 0.9rem; font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-ghost:hover { background: var(--indigo-dim); border-color: var(--indigo); }
+
+    /* ── Badge ── */
+    .badge {
+      display: inline-block;
+      background: var(--indigo-dim);
+      border: 1px solid rgba(99,102,241,0.3);
+      color: var(--indigo-lt);
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 999px;
+      margin-bottom: 28px;
+    }
+    .badge-green {
+      background: var(--green-dim);
+      border-color: rgba(52,211,153,0.3);
+      color: var(--green);
+    }
+
+    /* ── Hero ── */
+    #hero {
+      padding: 120px 0 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 600px;
+      background: radial-gradient(ellipse, rgba(99,102,241,0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    h1 {
+      font-size: clamp(2.6rem, 6vw, 4.2rem);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      margin-bottom: 24px;
+    }
+    h1 em { font-style: normal; color: var(--indigo-lt); }
+
+    .hero-sub {
+      font-size: 1.18rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto 48px;
+      line-height: 1.75;
+    }
+
+    /* ── Form ── */
+    .waitlist-form {
+      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+      max-width: 500px; margin: 0 auto 14px;
+    }
+    .waitlist-form input[type="email"] {
+      flex: 1; min-width: 240px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .waitlist-form input[type="email"]:focus {
+      border-color: var(--indigo);
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+    }
+
+    .form-note { font-size: 0.8rem; color: var(--muted); margin-top: 10px; }
     .form-note strong { color: var(--indigo-lt); }
 
-    .counter-wrap { margin-top: 22px; font-size: 0.88rem; color: var(--muted); }
+    .counter-wrap {
+      margin-top: 24px;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 8px 18px; border-radius: 999px;
+      font-size: 0.85rem; color: var(--muted);
+    }
+    .counter-dot {
+      width: 7px; height: 7px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
     .counter-wrap strong { color: var(--text); }
 
     .success-msg {
       display: none;
-      background: rgba(52,211,153,0.1);
+      background: var(--green-dim);
       border: 1px solid rgba(52,211,153,0.3);
       color: var(--green);
       padding: 14px 20px; border-radius: var(--radius);
       font-size: 0.95rem;
-      max-width: 480px; margin: 0 auto 14px;
+      max-width: 500px; margin: 0 auto 14px;
     }
 
+    /* ── Trust Bar ── */
+    #trust {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .trust-bar {
+      display: flex; align-items: center; justify-content: center;
+      gap: 32px; flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.83rem; color: var(--muted);
+      white-space: nowrap;
+    }
+    .trust-item strong { color: var(--text); }
+    .trust-icon { font-size: 1rem; }
+    .trust-sep { color: var(--border); font-size: 1.2rem; }
+
     /* ── Section headings ── */
-    .section-head { text-align: center; margin-bottom: 56px; }
-    .section-head h2 { font-size: 2rem; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.5px; }
-    .section-head p { color: var(--muted); max-width: 480px; margin: 0 auto; }
+    .section-head { text-align: center; margin-bottom: 60px; }
+    .section-head h2 {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .section-head p { color: var(--muted); max-width: 500px; margin: 0 auto; line-height: 1.7; }
 
     /* ── Pain ── */
     #pain { background: var(--surface); }
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 18px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 780px) {
+      .cards { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 500px) {
+      .cards { grid-template-columns: 1fr; }
     }
     .card {
       background: var(--bg);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border-radius: var(--radius-lg);
       padding: 28px 24px;
+      transition: border-color 0.2s;
     }
-    .card-icon { font-size: 1.8rem; margin-bottom: 14px; }
-    .card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
-    .card p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+    .card:hover { border-color: rgba(99,102,241,0.3); }
+    .card-icon { font-size: 2rem; margin-bottom: 16px; }
+    .card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+    .card p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
 
-    /* ── How it works ── */
+    /* ── Two Modes ── */
+    #modes { background: var(--bg); }
+    .modes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .mode-card {
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .mode-card.safe {
+      background: linear-gradient(135deg, rgba(52,211,153,0.08) 0%, var(--surface) 100%);
+      border: 1px solid rgba(52,211,153,0.25);
+    }
+    .mode-card.vault {
+      background: linear-gradient(135deg, rgba(99,102,241,0.1) 0%, var(--surface) 100%);
+      border: 1px solid rgba(99,102,241,0.3);
+    }
+    .mode-label {
+      display: inline-block;
+      font-size: 0.72rem; font-weight: 800;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 999px;
+      margin-bottom: 20px;
+    }
+    .mode-card.safe .mode-label { background: var(--green-dim); color: var(--green); }
+    .mode-card.vault .mode-label { background: var(--indigo-dim); color: var(--indigo-lt); }
+    .mode-card h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 12px; }
+    .mode-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
+    .mode-specs { list-style: none; }
+    .mode-specs li {
+      font-size: 0.85rem; color: var(--muted);
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .mode-specs li:last-child { border-bottom: none; }
+    .mode-specs .check { color: var(--green); font-weight: 800; }
+    .mode-specs .lock { color: var(--indigo-lt); font-weight: 800; }
+
+    /* ── How it Works ── */
+    #how { background: var(--surface); }
     .steps {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 36px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 8px;
+      position: relative;
     }
-    .step { text-align: center; }
+    .step {
+      text-align: center;
+      padding: 32px 24px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .step:hover { border-color: rgba(99,102,241,0.3); transform: translateY(-3px); }
     .step-num {
       display: inline-flex; align-items: center; justify-content: center;
-      width: 54px; height: 54px;
-      background: rgba(99,102,241,0.12);
+      width: 52px; height: 52px;
+      background: var(--indigo-dim);
       border: 1px solid rgba(99,102,241,0.3);
       border-radius: 50%;
-      font-size: 1.2rem; font-weight: 800;
+      font-size: 1.1rem; font-weight: 900;
       color: var(--indigo-lt);
       margin-bottom: 20px;
     }
-    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
-    .step p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+    .step p { font-size: 0.86rem; color: var(--muted); line-height: 1.7; }
 
     /* ── Screenshots ── */
-    #screenshots { background: var(--surface); }
+    #screenshots { background: var(--bg); }
     .screens-row {
       display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
-      margin-top: 48px;
     }
-    /* Replace these with <img> tags once you have real screenshots */
     .screen-placeholder {
-      width: 185px; height: 330px;
-      background: var(--bg);
+      width: 190px; height: 340px;
+      background: var(--surface2);
       border: 1px solid var(--border);
-      border-radius: 24px;
+      border-radius: 28px;
       display: flex; align-items: center; justify-content: center;
-      color: var(--muted); font-size: 0.78rem; text-align: center; padding: 16px;
+      color: var(--muted); font-size: 0.8rem; text-align: center; padding: 20px;
+      flex-direction: column; gap: 10px;
     }
+    .screen-placeholder .ph-icon { font-size: 2rem; opacity: 0.4; }
 
     /* ── Features ── */
+    #features { background: var(--surface); }
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 12px;
     }
     .feature-item {
-      display: flex; gap: 14px; align-items: flex-start;
-      padding: 20px;
-      background: var(--surface);
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 22px 20px;
+      background: var(--bg);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border-radius: var(--radius-lg);
+      transition: border-color 0.2s;
     }
-    .feature-icon { font-size: 1.35rem; flex-shrink: 0; margin-top: 2px; }
-    .feature-item h3 { font-size: 0.92rem; font-weight: 700; margin-bottom: 4px; }
-    .feature-item p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+    .feature-item:hover { border-color: rgba(99,102,241,0.25); }
+    .feature-icon {
+      font-size: 1.5rem; flex-shrink: 0;
+      width: 44px; height: 44px;
+      background: var(--indigo-dim);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .feature-item h3 { font-size: 0.93rem; font-weight: 700; margin-bottom: 5px; }
+    .feature-item p { font-size: 0.83rem; color: var(--muted); line-height: 1.65; }
 
-    /* ── Early access ── */
+    /* ── Coming Soon ── */
+    #coming { background: var(--bg); }
+    .coming-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 12px;
+    }
+    .coming-item {
+      padding: 20px;
+      background: var(--surface2);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-lg);
+      display: flex; gap: 14px; align-items: flex-start;
+      opacity: 0.8;
+    }
+    .coming-badge {
+      font-size: 0.65rem; font-weight: 800;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 2px 8px; border-radius: 999px;
+      background: rgba(251,191,36,0.1);
+      color: var(--amber);
+      border: 1px solid rgba(251,191,36,0.2);
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+    .coming-item h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; }
+    .coming-item p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── Differentiators ── */
+    #compare { background: var(--surface); }
+    .diff-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .diff-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .diff-card:hover { border-color: rgba(99,102,241,0.3); }
+    .diff-half {
+      padding: 20px 22px;
+    }
+    .diff-half.old {
+      border-bottom: 1px solid var(--border);
+      background: rgba(248,113,113,0.04);
+    }
+    .diff-half.new {
+      background: rgba(52,211,153,0.04);
+    }
+    .diff-label {
+      font-size: 0.7rem; font-weight: 800;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 7px;
+    }
+    .diff-half.old .diff-label { color: var(--red); }
+    .diff-half.new .diff-label { color: var(--green); }
+    .diff-half h3 {
+      font-size: 0.93rem; font-weight: 700;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+    .diff-half.old h3 { color: var(--muted); }
+    .diff-half.new h3 { color: var(--text); }
+    .diff-half p {
+      font-size: 0.82rem;
+      line-height: 1.65;
+    }
+    .diff-half.old p { color: var(--muted); }
+    .diff-half.new p { color: var(--muted); }
+
+    /* ── Security Transparency ── */
+    #security { background: var(--bg); }
+    .security-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 16px;
+    }
+    .security-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+    }
+    .security-card h3 {
+      font-size: 0.85rem; font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .security-value {
+      font-size: 1.15rem; font-weight: 800;
+      color: var(--indigo-lt);
+      margin-bottom: 8px;
+      font-family: 'Courier New', monospace;
+    }
+    .security-card p { font-size: 0.83rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── FAQ ── */
+    #faq { background: var(--surface); }
+    .faq-list { max-width: 700px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-q {
+      width: 100%; text-align: left;
+      background: none; border: none; color: var(--text);
+      font-size: 0.97rem; font-weight: 600;
+      padding: 20px 0;
+      cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 16px;
+    }
+    .faq-q:hover { color: var(--indigo-lt); }
+    .faq-arrow {
+      font-size: 0.8rem; color: var(--muted);
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-a {
+      font-size: 0.88rem; color: var(--muted);
+      line-height: 1.75;
+      padding-bottom: 20px;
+      display: none;
+    }
+    .faq-item.open .faq-a { display: block; }
+
+    /* ── Early Access ── */
     #early {
       text-align: center;
-      background: linear-gradient(140deg,
-        rgba(99,102,241,0.1) 0%,
-        rgba(99,102,241,0.03) 100%);
+      background: linear-gradient(160deg,
+        rgba(99,102,241,0.12) 0%,
+        rgba(99,102,241,0.04) 60%,
+        var(--bg) 100%);
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
     }
-    #early h2 { font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px; }
-    #early > .container > p { color: var(--muted); max-width: 480px; margin: 0 auto 36px; }
-
+    #early h2 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 14px;
+    }
+    #early > .container > p {
+      color: var(--muted); max-width: 500px; margin: 0 auto 36px; line-height: 1.7;
+    }
     .perks {
       display: flex; gap: 10px; justify-content: center;
       flex-wrap: wrap; margin-bottom: 40px;
     }
     .perk {
-      background: var(--surface);
+      background: var(--surface2);
       border: 1px solid var(--border);
       padding: 9px 18px; border-radius: 999px;
       font-size: 0.83rem;
@@ -248,28 +548,34 @@
     .perk-check { color: var(--green); font-weight: 800; }
 
     /* ── Bottom CTA ── */
-    #cta { text-align: center; }
-    #cta h2 { font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px; }
+    #cta { text-align: center; background: var(--bg); }
+    #cta h2 { font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 900; letter-spacing: -0.5px; margin-bottom: 14px; }
     #cta > .container > p { color: var(--muted); max-width: 440px; margin: 0 auto 36px; }
 
     /* ── Footer ── */
     footer {
       border-top: 1px solid var(--border);
-      padding: 28px 24px;
+      padding: 40px 24px;
       text-align: center;
-      font-size: 0.82rem; color: var(--muted);
     }
-    .footer-links { display: flex; gap: 24px; justify-content: center; margin-top: 10px; }
-    .footer-links a { color: var(--muted); }
+    .footer-logo { font-size: 1.2rem; font-weight: 900; margin-bottom: 12px; }
+    .footer-logo span { color: var(--indigo-lt); }
+    .footer-tagline { font-size: 0.83rem; color: var(--muted); margin-bottom: 24px; }
+    .footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.83rem; color: var(--muted); }
     .footer-links a:hover { color: var(--text); text-decoration: none; }
+    .footer-copy { font-size: 0.78rem; color: var(--muted); margin-top: 24px; }
 
     /* ── Responsive ── */
-    @media (max-width: 600px) {
-      section { padding: 60px 0; }
-      #hero { padding: 80px 0 64px; }
-      h1 { letter-spacing: -0.5px; }
+    @media (max-width: 700px) {
+      section { padding: 64px 0; }
+      #hero { padding: 90px 0 70px; }
+      h1 { letter-spacing: -1px; }
       .waitlist-form { flex-direction: column; }
       .waitlist-form input[type="email"] { min-width: unset; }
+      .modes-grid { grid-template-columns: 1fr; }
+      .trust-sep { display: none; }
+      .nav-link { display: none; }
     }
   </style>
 </head>
@@ -279,9 +585,12 @@
 <nav>
   <div class="nav-inner">
     <div class="logo">pix<span>valt</span></div>
-    <a href="#early" class="btn-primary" style="padding:9px 20px;font-size:0.88rem;">
-      Get Early Access
-    </a>
+    <div class="nav-right">
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#compare" class="nav-link">Why PixValt</a>
+      <a href="#faq" class="nav-link">FAQ</a>
+      <a href="#early" class="btn-primary" style="padding:9px 20px;font-size:0.88rem;">Get Early Access</a>
+    </div>
   </div>
 </nav>
 
@@ -293,8 +602,8 @@
     <h1>Your photos deserve<br>a <em>real vault.</em></h1>
 
     <p class="hero-sub">
-      PixValt encrypts every photo and video on your device using AES-256.
-      No server sees your files. No ads. No data collection.
+      PixValt hides and encrypts every photo and video directly on your device.
+      No server sees your files. No ads. No subscriptions.
       Only you hold the key.
     </p>
 
@@ -304,22 +613,55 @@
 
     <form class="waitlist-form" id="hero-form" onsubmit="handleSignup(event,'hero')">
       <input type="email" placeholder="Enter your email" required autocomplete="email" />
-      <button type="submit" class="btn-primary">Notify Me</button>
+      <button type="submit" class="btn-primary">Notify Me Free</button>
     </form>
     <p class="form-note">No spam. <strong>First 200 get Pro free.</strong> Unsubscribe anytime.</p>
 
-    <div class="counter-wrap" id="counter">
-      <strong id="count-num">—</strong> people already on the waitlist
+    <div class="counter-wrap" id="counter" style="display:none;">
+      <div class="counter-dot"></div>
+      <span><strong id="count-num">0</strong> people already on the waitlist</span>
     </div>
   </div>
 </section>
+
+<!-- ── Trust Bar ── -->
+<div id="trust">
+  <div class="container">
+    <div class="trust-bar">
+      <div class="trust-item">
+        <span class="trust-icon">🔒</span>
+        <span><strong>AES-256-CBC</strong> encryption</span>
+      </div>
+      <span class="trust-sep">|</span>
+      <div class="trust-item">
+        <span class="trust-icon">📵</span>
+        <span><strong>100% on-device</strong> — no server</span>
+      </div>
+      <span class="trust-sep">|</span>
+      <div class="trust-item">
+        <span class="trust-icon">🚫</span>
+        <span><strong>Zero ads</strong> — ever</span>
+      </div>
+      <span class="trust-sep">|</span>
+      <div class="trust-item">
+        <span class="trust-icon">☁️</span>
+        <span><strong>Google Drive</strong> backup</span>
+      </div>
+      <span class="trust-sep">|</span>
+      <div class="trust-item">
+        <span class="trust-icon">🇮🇳</span>
+        <span>Made for <strong>India</strong></span>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ── Pain Points ── -->
 <section id="pain">
   <div class="container">
     <div class="section-head">
       <h2>Your photos are not as private as you think.</h2>
-      <p>Every app with gallery access can read your files. Every cloud service scans them.</p>
+      <p>Every app with gallery access can read your files. Every cloud service scans them. Your screen lock protects nothing.</p>
     </div>
     <div class="cards">
       <div class="card">
@@ -331,14 +673,71 @@
       <div class="card">
         <div class="card-icon">📱</div>
         <h3>Any app can browse your gallery</h3>
-        <p>Once you grant media permission, any app on your phone can read every
-           photo and video you've ever taken. Your private moments are one permission away from exposure.</p>
+        <p>Once you grant media permission, any installed app can read every photo and video
+           you've ever taken. Your private moments are one permission away from exposure.</p>
       </div>
       <div class="card">
         <div class="card-icon">🔓</div>
-        <h3>Screen lock is not encryption</h3>
-        <p>If your phone is lost or stolen, your photos are readable directly from
-           the filesystem. A screen PIN is a speed bump. Encryption is the only real barrier.</p>
+        <h3>Your screen PIN is not encryption</h3>
+        <p>If your phone is lost or stolen, photos are readable directly from the filesystem.
+           A screen PIN is a speed bump. Real encryption is the only real barrier.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">👨‍👩‍👧</div>
+        <h3>Family members can see everything</h3>
+        <p>Lend your phone for a minute — and anyone can scroll through your entire gallery.
+           PixValt moves your private files completely out of the gallery.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📍</div>
+        <h3>Every photo carries your location</h3>
+        <p>Your camera silently embeds GPS coordinates, device model, and timestamp into
+           every photo you take. Share an image — and you share your exact whereabouts.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🛠️</div>
+        <h3>Repair shops have full access</h3>
+        <p>Handing your phone to a technician for repair? They can browse every photo
+           and video on your device. There is no consent screen for a service centre visit.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Two Modes ── -->
+<section id="modes">
+  <div class="container">
+    <div class="section-head">
+      <h2>Two ways to protect your files.</h2>
+      <p>Choose how much protection you need — per file, per folder, your way.</p>
+    </div>
+    <div class="modes-grid">
+      <div class="mode-card safe">
+        <div class="mode-label">Safe Mode</div>
+        <h3>Hide Without Encrypting</h3>
+        <p>Files are moved out of your gallery into app-only storage in their original format.
+           Instant. No encryption key needed. Invisible to every other app and the gallery.</p>
+        <ul class="mode-specs">
+          <li><span class="check">✓</span> Instant import — no processing time</li>
+          <li><span class="check">✓</span> File disappears from gallery immediately</li>
+          <li><span class="check">✓</span> Original quality preserved (JPG, MP4, etc.)</li>
+          <li><span class="check">✓</span> Invisible to all other apps</li>
+          <li><span class="check">✓</span> Perfect for hiding from family/friends</li>
+        </ul>
+      </div>
+      <div class="mode-card vault">
+        <div class="mode-label">Vault Mode</div>
+        <h3>Full AES-256 Encryption</h3>
+        <p>Files are encrypted using your personal 6-digit key and stored as a proprietary
+           <strong style="color:var(--indigo-lt)">.pvlt</strong> format that no other app or
+           tool can open — even with physical device access.</p>
+        <ul class="mode-specs">
+          <li><span class="lock">🔐</span> AES-256-CBC military-grade encryption</li>
+          <li><span class="lock">🔐</span> Stored as .pvlt — unreadable by any other app</li>
+          <li><span class="lock">🔐</span> Key derived from your PIN — never stored</li>
+          <li><span class="lock">🔐</span> Safe even on rooted devices</li>
+          <li><span class="lock">🔐</span> Google Drive backup of encrypted files</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -348,27 +747,33 @@
 <section id="how">
   <div class="container">
     <div class="section-head">
-      <h2>Three steps. Completely private.</h2>
-      <p>No account. No internet required. No server ever touches your files.</p>
+      <h2>Simple to use. Impossible to break.</h2>
+      <p>No account needed. No internet required. Encryption happens in seconds.</p>
     </div>
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
-        <h3>Import</h3>
-        <p>Pick any photo or video from your gallery. PixValt moves it into the vault
-           — original immediately and securely deleted from your gallery.</p>
+        <h3>Open your gallery</h3>
+        <p>Browse your device gallery or Google Drive directly inside PixValt.
+           Select one photo or hundreds at once.</p>
       </div>
       <div class="step">
         <div class="step-num">2</div>
-        <h3>Encrypt</h3>
-        <p>AES-256 encryption runs instantly on your device using your personal
-           6-digit key. The file becomes unreadable to every other app.</p>
+        <h3>Move to vault</h3>
+        <p>Choose Safe Mode (hide) or Vault Mode (encrypt). Files disappear from
+           gallery instantly. Original securely deleted.</p>
       </div>
       <div class="step">
         <div class="step-num">3</div>
-        <h3>Only you can open it</h3>
-        <p>Files inside PixValt are locked. No other app, no cloud service,
-           no one else can open them — only you, with your key.</p>
+        <h3>Only you can see it</h3>
+        <p>Files live inside PixValt only. No gallery, no file manager,
+           no other app — nothing can see them without your PIN.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Backed up safely</h3>
+        <p>Encrypted files sync to your own Google Drive automatically.
+           New phone? Enter your PIN and restore everything.</p>
       </div>
     </div>
   </div>
@@ -379,28 +784,32 @@
   <div class="container">
     <div class="section-head">
       <h2>See it in action</h2>
-      <p>Real screenshots — no mockups, no stock photos.</p>
+      <p>Real screenshots — no mockups, no stock photos. Coming soon.</p>
     </div>
     <div class="screens-row">
       <!--
         REPLACE these with real <img> tags after taking screenshots on your device.
-
         Example:
         <img src="assets/screens/vault.jpg"
              alt="PixValt vault screen"
-             style="width:185px;border-radius:24px;border:1px solid #1c2030;" />
-
-        Recommended shots:
-        1. Vault grid — encrypted thumbnails with lock icons
-        2. Import flow — selecting photos from gallery
-        3. PIN entry screen
-        4. Google Drive backup status
-        5. Profile / settings
+             style="width:190px;border-radius:28px;border:1px solid #1e2435;" />
       -->
-      <div class="screen-placeholder">📸 Vault<br>screenshot<br>coming soon</div>
-      <div class="screen-placeholder">🔐 Encrypt<br>in action</div>
-      <div class="screen-placeholder">☁️ Drive<br>backup</div>
-      <div class="screen-placeholder">⚙️ Settings</div>
+      <div class="screen-placeholder">
+        <div class="ph-icon">🔒</div>
+        <span>Vault grid</span>
+      </div>
+      <div class="screen-placeholder">
+        <div class="ph-icon">📸</div>
+        <span>Import flow</span>
+      </div>
+      <div class="screen-placeholder">
+        <div class="ph-icon">📁</div>
+        <span>Folder system</span>
+      </div>
+      <div class="screen-placeholder">
+        <div class="ph-icon">☁️</div>
+        <span>Drive backup</span>
+      </div>
     </div>
   </div>
 </section>
@@ -417,64 +826,346 @@
         <div class="feature-icon">🔒</div>
         <div>
           <h3>AES-256 Encryption</h3>
-          <p>Military-grade standard — the same encryption used by banks and governments,
-             applied to every file the moment it enters your vault.</p>
+          <p>Military-grade standard used by banks and governments — applied to every file the moment it enters Vault Mode.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🫥</div>
+        <div>
+          <h3>Safe Mode — Instant Hiding</h3>
+          <p>Move files out of the gallery without encryption. Invisible to every app. Instant import regardless of file size.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">📁</div>
+        <div>
+          <h3>Folders with Per-Folder Password</h3>
+          <p>Create named folders. Each folder gets its own PIN. Enable encryption per folder — the PIN becomes the encryption key.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">👻</div>
+        <div>
+          <h3>Hidden Folders</h3>
+          <p>Mark folders as hidden — they vanish from the vault view. Reveal them only by triple-tapping the logo or drawing a secret pattern.</p>
         </div>
       </div>
       <div class="feature-item">
         <div class="feature-icon">📵</div>
         <div>
           <h3>100% On-Device</h3>
-          <p>Encryption runs entirely on your phone. No internet connection needed.
-             No PixValt server ever receives your files.</p>
+          <p>Encryption runs entirely on your phone. No internet needed. No PixValt server ever receives, sees, or stores your files.</p>
         </div>
       </div>
       <div class="feature-item">
         <div class="feature-icon">☁️</div>
         <div>
           <h3>Google Drive Backup</h3>
-          <p>Back up your encrypted vault to your own Google Drive.
-             Even Google cannot read the files — only your key can decrypt them.</p>
+          <p>Back up your encrypted vault to your own Google Drive. Even Google cannot read the files — only your PIN decrypts them.</p>
         </div>
       </div>
       <div class="feature-item">
         <div class="feature-icon">⏱️</div>
         <div>
           <h3>Auto-Lock</h3>
-          <p>Vault locks automatically when you leave the app — 15 seconds,
-             30 seconds, 1 minute, or 5 minutes. Your choice.</p>
+          <p>Vault locks the moment you leave the app — 15 seconds, 30 seconds, 1 or 5 minutes. Configurable to your lifestyle.</p>
         </div>
       </div>
       <div class="feature-item">
         <div class="feature-icon">🗑️</div>
         <div>
           <h3>30-Day Trash Recovery</h3>
-          <p>Accidentally deleted something? Restore it any time within 30 days.
-             After that, it's gone for good — no half-deleted files lingering anywhere.</p>
+          <p>Accidentally deleted a file? Restore it any time within 30 days. After that, gone for good — no half-deleted files lingering.</p>
         </div>
       </div>
       <div class="feature-item">
-        <div class="feature-icon">🏷️</div>
+        <div class="feature-icon">🔍</div>
         <div>
-          <h3>Groups &amp; Favourites</h3>
-          <p>Organise your vault into named groups. Star the files you access most.
-             Your vault, structured the way you think.</p>
+          <h3>Search, Sort & Filter</h3>
+          <p>Full-text search. Sort by newest, oldest, name, or size. Filter by images, videos, favourites, or groups.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">⭐</div>
+        <div>
+          <h3>Favourites</h3>
+          <p>Star the files you access most. One-tap filter shows only your favourites — no scrolling through hundreds of files.</p>
         </div>
       </div>
       <div class="feature-item">
         <div class="feature-icon">📤</div>
         <div>
           <h3>Secure Export</h3>
-          <p>Need to share a file? Export a decrypted copy via your phone's share sheet.
-             The vault copy stays encrypted — always.</p>
+          <p>Need to share a file? Export a decrypted copy via your phone's share sheet. The vault copy stays encrypted — always.</p>
         </div>
       </div>
       <div class="feature-item">
         <div class="feature-icon">🔄</div>
         <div>
           <h3>Device Loss Recovery</h3>
-          <p>Phone lost or broken? Install PixValt on any Android device,
-             restore from Drive, enter your PIN — all your files back. Zero data loss.</p>
+          <p>Phone lost? Install PixValt on any Android, restore from Drive, enter your PIN — all files back. Zero data loss.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Coming Soon ── -->
+<section id="coming">
+  <div class="container">
+    <div class="section-head">
+      <div class="badge badge-green">Coming Soon</div>
+      <h2>Just getting started.</h2>
+      <p>These features are already planned and in development. Sign up to be first in line.</p>
+    </div>
+    <div class="coming-grid">
+      <div class="coming-item">
+        <div class="coming-badge">V1.1</div>
+        <div>
+          <h3>Biometric Unlock</h3>
+          <p>Fingerprint or face unlock as an alternative to PIN entry.</p>
+        </div>
+      </div>
+      <div class="coming-item">
+        <div class="coming-badge">V1.1</div>
+        <div>
+          <h3>Decoy Vault</h3>
+          <p>A second PIN opens a separate, empty decoy vault. Real vault stays hidden.</p>
+        </div>
+      </div>
+      <div class="coming-item">
+        <div class="coming-badge">V1.1</div>
+        <div>
+          <h3>Break-In Alert</h3>
+          <p>Captures a selfie and timestamp if someone enters the wrong PIN 3 times.</p>
+        </div>
+      </div>
+      <div class="coming-item">
+        <div class="coming-badge">V1.1</div>
+        <div>
+          <h3>In-App Camera</h3>
+          <p>Capture photos and videos directly into the vault — never saved to gallery.</p>
+        </div>
+      </div>
+      <div class="coming-item">
+        <div class="coming-badge">V2</div>
+        <div>
+          <h3>Secure Sharing</h3>
+          <p>Time-limited, revocable share links. Server never sees file content.</p>
+        </div>
+      </div>
+      <div class="coming-item">
+        <div class="coming-badge">V2</div>
+        <div>
+          <h3>WhatsApp Import</h3>
+          <p>One-tap import of your entire WhatsApp media folder into the vault.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Differentiators ── -->
+<section id="compare">
+  <div class="container">
+    <div class="section-head">
+      <h2>Built differently. By design.</h2>
+      <p>Most vault apps dress a gallery up with a PIN screen. PixValt was built from scratch on real security principles.</p>
+    </div>
+    <div class="diff-grid">
+
+      <div class="diff-card">
+        <div class="diff-half old">
+          <div class="diff-label">✕ Most apps</div>
+          <h3>A PIN screen around your gallery</h3>
+          <p>The files sit in standard format. Bypass the screen lock and the photos are fully readable by any tool.</p>
+        </div>
+        <div class="diff-half new">
+          <div class="diff-label">✓ PixValt</div>
+          <h3>Two real layers of protection</h3>
+          <p>Safe Mode moves files out of the gallery entirely. Vault Mode wraps them in AES-256 encryption. Your files don't exist to any other app.</p>
+        </div>
+      </div>
+
+      <div class="diff-card">
+        <div class="diff-half old">
+          <div class="diff-label">✕ Most apps</div>
+          <h3>Ads inside your private vault</h3>
+          <p>Free vault apps sell attention. Your private photo library becomes a surface for targeted advertising.</p>
+        </div>
+        <div class="diff-half new">
+          <div class="diff-label">✓ PixValt</div>
+          <h3>Zero ads — in the free tier and in Pro</h3>
+          <p>No ads. No analytics on your files. No profiling. Privacy is the entire point — we don't undercut it.</p>
+        </div>
+      </div>
+
+      <div class="diff-card">
+        <div class="diff-half old">
+          <div class="diff-label">✕ Most apps</div>
+          <h3>Files lost when phone is lost</h3>
+          <p>Everything lives only on your device. Phone stolen, broken, or reset? Files are gone permanently.</p>
+        </div>
+        <div class="diff-half new">
+          <div class="diff-label">✓ PixValt</div>
+          <h3>Same PIN + new phone = full recovery</h3>
+          <p>Encrypted files back up to your own Google Drive. On any Android, enter your 6-digit PIN and everything restores — in encrypted form, exactly as before.</p>
+        </div>
+      </div>
+
+      <div class="diff-card">
+        <div class="diff-half old">
+          <div class="diff-label">✕ Most apps</div>
+          <h3>One vault, one password, no structure</h3>
+          <p>A single flat gallery with no way to separate personal, work, or sensitive files from each other.</p>
+        </div>
+        <div class="diff-half new">
+          <div class="diff-label">✓ PixValt</div>
+          <h3>Folders, per-folder passwords, hidden folders</h3>
+          <p>Create named folders with individual passwords. Mark folders as hidden — they vanish until you reveal them with a triple-tap or drawn gesture.</p>
+        </div>
+      </div>
+
+      <div class="diff-card">
+        <div class="diff-half old">
+          <div class="diff-label">✕ Most apps</div>
+          <h3>Standard file formats, readable by anyone</h3>
+          <p>Even "encrypted" apps often store JPEG or MP4 files that can be extracted with a file manager if the device is rooted.</p>
+        </div>
+        <div class="diff-half new">
+          <div class="diff-label">✓ PixValt</div>
+          <h3>Proprietary .pvlt format — unreadable by design</h3>
+          <p>Every file is stored as .pvlt — our own format with a random IV per file. No app, file manager, or tool on Earth can open it without your PIN.</p>
+        </div>
+      </div>
+
+      <div class="diff-card">
+        <div class="diff-half old">
+          <div class="diff-label">✕ Most apps</div>
+          <h3>Cloud servers process your photos</h3>
+          <p>Files are uploaded to a third-party server for "backup." You can't verify what happens to them once they leave your device.</p>
+        </div>
+        <div class="diff-half new">
+          <div class="diff-label">✓ PixValt</div>
+          <h3>100% on-device — no PixValt server, ever</h3>
+          <p>Encryption runs entirely on your phone. Drive backup goes directly to your personal Google Drive — not our servers. Zero trust required.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Security Transparency ── -->
+<section id="security">
+  <div class="container">
+    <div class="section-head">
+      <h2>Nothing to hide about how we protect you.</h2>
+      <p>We publish exactly what encryption we use and how it works. No vague "military-grade" promises.</p>
+    </div>
+    <div class="security-grid">
+      <div class="security-card">
+        <h3>Algorithm</h3>
+        <div class="security-value">AES-256-CBC</div>
+        <p>The same encryption standard used by banks, governments, and the US military. 256-bit key — mathematically unbreakable by brute force.</p>
+      </div>
+      <div class="security-card">
+        <h3>Key Derivation</h3>
+        <div class="security-value">PBKDF2-HMAC-SHA256</div>
+        <p>Your 6-digit PIN is stretched into a 32-byte encryption key using 100,000 iterations. Slow by design — makes brute force attacks impractical.</p>
+      </div>
+      <div class="security-card">
+        <h3>File Format</h3>
+        <div class="security-value">.pvlt (PixValt)</div>
+        <p>Every encrypted file is wrapped in our proprietary .pvlt format with a random 16-byte IV per file. No other app on Earth can open a .pvlt file.</p>
+      </div>
+      <div class="security-card">
+        <h3>Key Storage</h3>
+        <div class="security-value">In-Memory Only</div>
+        <p>Your derived key lives in memory only while the vault is unlocked. It is never written to disk, never sent anywhere, and wiped on app lock.</p>
+      </div>
+      <div class="security-card">
+        <h3>Server Access</h3>
+        <div class="security-value">Zero</div>
+        <p>PixValt has no servers that receive your files. Drive backups go directly to your personal Google Drive account — not ours.</p>
+      </div>
+      <div class="security-card">
+        <h3>App Protection</h3>
+        <div class="security-value">Play Integrity API</div>
+        <p>PixValt detects tampered or repackaged APKs using Google's Play Integrity API. Fake versions of PixValt cannot access your vault.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section id="faq">
+  <div class="container">
+    <div class="section-head">
+      <h2>Your questions, answered.</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What happens if I forget my encryption PIN?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          Your 6-digit encryption PIN is the only thing that can decrypt your files. If you forget it, your encrypted files cannot be recovered — by you or by us. This is by design: true encryption means nobody has a backdoor. We recommend writing your PIN somewhere safe when you set it up. Your 4-digit app PIN (used just to open the app) can be reset without affecting your encrypted files.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Can PixValt see my photos or videos?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          No — and this is architecturally impossible, not just a promise. Encryption happens entirely on your device before any file is stored. PixValt has no servers that receive your files. Your encryption key is derived from your PIN and never leaves your device. Even if someone broke into our company, there would be nothing to steal.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What is the difference between Safe Mode and Vault Mode?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          Safe Mode moves files into app-only storage in their original format — invisible to the gallery and all other apps, but not encrypted. It's instant and great for hiding files from family members or casual access. Vault Mode encrypts files with AES-256 using your PIN, storing them as .pvlt format — unreadable even if someone has physical access to your phone's storage.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What happens to my files if I get a new phone?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          Full recovery. Enable Google Drive backup in PixValt → all your encrypted .pvlt files are uploaded to your own Google Drive. On a new phone: install PixValt → sign in to Google → go to Backup → Restore → enter your same 6-digit PIN. Since the key is derived deterministically from your PIN, the same PIN decrypts everything on any device.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Is PixValt free?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          The core vault is completely free — import, hide, encrypt, organise, search, and recover files at no cost, forever. Google Drive backup is a Pro feature. The first 200 people on the waitlist get Pro unlocked permanently for free. After that, Pro will be a small one-time purchase (no subscription).
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Does PixValt work without internet?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          Yes — completely. The vault works 100% offline. Encryption, decryption, viewing, organising — all happen on your device with no internet. Google Drive backup obviously requires internet, but it's entirely optional. Your vault is not dependent on any server being online.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What is the .pvlt file format?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          .pvlt is PixValt's proprietary encrypted file format. Every encrypted file is wrapped with a unique header that includes a random IV (initialisation vector), content type, and format version — then the AES-256-CBC encrypted payload. No other app on Earth can open a .pvlt file. Even knowing the format specification is useless without the user's PIN.
         </div>
       </div>
     </div>
@@ -487,8 +1178,8 @@
     <div class="badge">Limited Offer</div>
     <h2>First 200 get Pro — free, forever.</h2>
     <p>
-      PixValt is free for the core vault. Google Drive backup is a Pro feature.
-      The first 200 people on this waitlist get Pro unlocked permanently — no payment, no subscription.
+      The core vault is always free. Google Drive backup is a Pro feature.
+      The first 200 people on this waitlist get Pro unlocked permanently — no payment, no subscription, no catch.
     </p>
 
     <div class="perks">
@@ -496,6 +1187,7 @@
       <div class="perk"><span class="perk-check">✓</span> Google Drive backup (Pro)</div>
       <div class="perk"><span class="perk-check">✓</span> No subscription, ever</div>
       <div class="perk"><span class="perk-check">✓</span> Priority beta access</div>
+      <div class="perk"><span class="perk-check">✓</span> Shape the features</div>
     </div>
 
     <div class="success-msg" id="early-success">
@@ -514,9 +1206,7 @@
 <section id="cta">
   <div class="container">
     <h2>Take back your privacy. Today.</h2>
-    <p>
-      Join the waitlist and be first to know when PixValt launches on Android.
-    </p>
+    <p>Join the waitlist and be first to know when PixValt launches on Android.</p>
 
     <div class="success-msg" id="cta-success">
       ✓ You're on the list! We'll email you the moment PixValt launches.
@@ -531,24 +1221,19 @@
 
 <!-- ── Footer ── -->
 <footer>
-  <div>© 2026 PixValt. All rights reserved.</div>
+  <div class="footer-logo">pix<span>valt</span></div>
+  <div class="footer-tagline">Lock your pixels. Your way.</div>
   <div class="footer-links">
     <a href="/privacy.html">Privacy Policy</a>
-    <a href="mailto:hello@pixvalt.com">Contact</a>
+    <a href="#features">Features</a>
+    <a href="#compare">Why PixValt</a>
+    <a href="#faq">FAQ</a>
+    <span style="color:var(--muted);font-size:0.83rem;cursor:text;user-select:all;">hello@pixvalt.com</span>
   </div>
+  <div class="footer-copy">© 2026 PixValt. All rights reserved. Made with ❤️ in India.</div>
 </footer>
 
 <script>
-  // ── Beehiiv waitlist integration ─────────────────────────────────────
-  // Setup steps:
-  //   1. Go to beehiiv.com → create free publication
-  //   2. Publications → Forms → Embed → copy the API endpoint URL
-  //   3. Paste it into BEEHIIV_FORM_URL below
-  //   4. Change INTEGRATION_LIVE to true
-  //
-  // Beehiiv endpoint looks like:
-  //   https://api.beehiiv.com/v2/forms/YOUR_FORM_ID/subscriptions
-
   const BEEHIIV_FORM_URL = 'https://api.beehiiv.com/v2/forms/158dd4cf-49cc-4d6e-9eaa-ab8163370814/subscriptions';
   const INTEGRATION_LIVE = true;
 
@@ -565,11 +1250,7 @@
         const res = await fetch(BEEHIIV_FORM_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email,
-            utm_source: 'landing_page',
-            utm_medium: formId
-          })
+          body: JSON.stringify({ email, utm_source: 'landing_page', utm_medium: formId })
         });
         if (!res.ok) throw new Error('Network error');
         showSuccess(formId);
@@ -580,7 +1261,6 @@
         alert('Something went wrong — please try again.');
       }
     } else {
-      // Dev mode — remove block when INTEGRATION_LIVE = true
       setTimeout(() => showSuccess(formId), 400);
     }
   }
@@ -591,26 +1271,25 @@
     const el = document.getElementById('count-num');
     const n  = parseInt(el.textContent) || 0;
     el.textContent = n + 1;
-    document.getElementById('counter').style.display = 'block';
+    document.getElementById('counter').style.display = 'flex';
   }
 
   function trackSignup(formId) {
     if (typeof gtag !== 'undefined') {
-      gtag('event', 'waitlist_signup', {
-        event_category: 'engagement',
-        event_label: formId
-      });
+      gtag('event', 'waitlist_signup', { event_category: 'engagement', event_label: formId });
     }
   }
 
-  // ── Waitlist counter seed ─────────────────────────────────────────────
-  // Update SEED_COUNT as real signups come in to show social proof.
+  function toggleFaq(btn) {
+    const item = btn.parentElement;
+    item.classList.toggle('open');
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     const SEED_COUNT = 0;
     if (SEED_COUNT > 0) {
       document.getElementById('count-num').textContent = SEED_COUNT;
-    } else {
-      document.getElementById('counter').style.display = 'none';
+      document.getElementById('counter').style.display = 'flex';
     }
   });
 </script>
