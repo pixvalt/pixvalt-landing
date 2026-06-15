@@ -1,15 +1,57 @@
 const PUB_ID  = 'pub_a073c8b2-377b-47d9-ba7e-1fbbcd94bc49';
 const API_KEY = 'VdkZX34mbms0ypaCZZItnW1VSJkc0lJvTXGO0vKOwNt5LykPRZrLqKU5FtK7uf7U';
 
+const WINDOW_MS    = 10 * 60 * 1000; // 10 minutes
+const MAX_ATTEMPTS = 3;
+const rateMap      = new Map();
+
+function getIP(req) {
+  const forwarded = req.headers['x-forwarded-for'];
+  return (forwarded ? forwarded.split(',')[0] : req.socket?.remoteAddress || 'unknown').trim();
+}
+
+function isRateLimited(ip) {
+  const now   = Date.now();
+  const entry = rateMap.get(ip);
+
+  // First request from this IP, or window expired — reset
+  if (!entry || now - entry.first > WINDOW_MS) {
+    rateMap.set(ip, { count: 1, first: now });
+    return false;
+  }
+
+  // Within window — check limit
+  if (entry.count >= MAX_ATTEMPTS) return true;
+
+  entry.count++;
+  return false;
+}
+
+// Purge stale entries every 100 requests to prevent memory growth
+let purgeCounter = 0;
+function maybePurge() {
+  if (++purgeCounter % 100 !== 0) return;
+  const now = Date.now();
+  for (const [ip, entry] of rateMap.entries()) {
+    if (now - entry.first > WINDOW_MS) rateMap.delete(ip);
+  }
+}
+
 export default async function handler(req, res) {
-  // Only allow POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  const ip = getIP(req);
+  maybePurge();
+
+  if (isRateLimited(ip)) {
+    return res.status(429).json({ error: 'Too many attempts. Please wait and try again.' });
+  }
+
   const { email, utm_medium } = req.body || {};
 
-  if (!email || typeof email !== 'string' || !email.includes('@')) {
+  if (!email || typeof email !== 'string' || !email.includes('@') || !email.includes('.')) {
     return res.status(400).json({ error: 'Valid email required' });
   }
 

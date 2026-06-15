@@ -1400,6 +1400,20 @@
 </footer>
 
 <script>
+  const FORM_IDS = ['hero', 'early', 'cta'];
+  const LS_KEY   = 'pixvalt_subscribed';
+
+  // Show success state across ALL forms (called on signup + on page load if already signed up)
+  function showAllSuccess() {
+    FORM_IDS.forEach(id => {
+      const form = document.getElementById(id + '-form');
+      const msg  = document.getElementById(id + '-success');
+      if (form) form.style.display = 'none';
+      if (msg)  msg.style.display  = 'block';
+    });
+    document.getElementById('counter').style.display = 'flex';
+  }
+
   async function handleSignup(event, formId) {
     event.preventDefault();
     const form  = event.target;
@@ -1414,23 +1428,26 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, utm_medium: formId })
       });
+
+      if (res.status === 429) {
+        btn.textContent = 'Try again';
+        btn.disabled = false;
+        alert('Too many attempts. Please wait a few minutes and try again.');
+        return;
+      }
+
       if (!res.ok) throw new Error('API error ' + res.status);
-      showSuccess(formId);
+
+      // Persist so all forms stay hidden on refresh
+      try { localStorage.setItem(LS_KEY, email); } catch(_) {}
+
+      showAllSuccess();
       trackSignup(formId);
     } catch(e) {
       btn.textContent = 'Try again';
       btn.disabled = false;
       alert('Something went wrong — please try again.');
     }
-  }
-
-  function showSuccess(formId) {
-    document.getElementById(formId + '-form').style.display    = 'none';
-    document.getElementById(formId + '-success').style.display = 'block';
-    const el = document.getElementById('count-num');
-    const n  = parseInt(el.textContent) || 0;
-    el.textContent = n + 1;
-    document.getElementById('counter').style.display = 'flex';
   }
 
   function trackSignup(formId) {
@@ -1445,11 +1462,12 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    const SEED_COUNT = 0;
-    if (SEED_COUNT > 0) {
-      document.getElementById('count-num').textContent = SEED_COUNT;
-      document.getElementById('counter').style.display = 'flex';
-    }
+    // If already subscribed in this browser, show success immediately
+    try {
+      if (localStorage.getItem(LS_KEY)) {
+        showAllSuccess();
+      }
+    } catch(_) {}
   });
 
   // ── Infinite Zoom (tunnel) ──
