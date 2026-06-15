@@ -1400,9 +1400,6 @@
 </footer>
 
 <script>
-  const BEEHIIV_URL = 'https://api.beehiiv.com/v2/publications/pub_a073c8b2-377b-47d9-ba7e-1fbbcd94bc49/subscriptions';
-  const BEEHIIV_KEY = 'VdkZX34mbms0ypaCZZItnW1VSJkc0lJvTXGO0vKOwNt5LykPRZrLqKU5FtK7uf7U';
-
   async function handleSignup(event, formId) {
     event.preventDefault();
     const form  = event.target;
@@ -1412,19 +1409,10 @@
     btn.disabled = true;
 
     try {
-      const res = await fetch(BEEHIIV_URL, {
+      const res = await fetch('/api/subscribe', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + BEEHIIV_KEY
-        },
-        body: JSON.stringify({
-          email,
-          utm_source: 'pixvalt_landing',
-          utm_medium: formId,
-          reactivate_existing: false,
-          send_welcome_email: true
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, utm_medium: formId })
       });
       if (!res.ok) throw new Error('API error ' + res.status);
       showSuccess(formId);
