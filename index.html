@@ -1400,8 +1400,8 @@
 </footer>
 
 <script>
-  const BEEHIIV_FORM_URL = 'https://api.beehiiv.com/v2/forms/158dd4cf-49cc-4d6e-9eaa-ab8163370814/subscriptions';
-  const INTEGRATION_LIVE = true;
+  const BEEHIIV_URL = 'https://api.beehiiv.com/v2/publications/pub_a073c8b2-377b-47d9-ba7e-1fbbcd94bc49/subscriptions';
+  const BEEHIIV_KEY = 'VdkZX34mbms0ypaCZZItnW1VSJkc0lJvTXGO0vKOwNt5LykPRZrLqKU5FtK7uf7U';
 
   async function handleSignup(event, formId) {
     event.preventDefault();
@@ -1411,23 +1411,28 @@
     btn.textContent = 'Joining…';
     btn.disabled = true;
 
-    if (INTEGRATION_LIVE) {
-      try {
-        const res = await fetch(BEEHIIV_FORM_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, utm_source: 'landing_page', utm_medium: formId })
-        });
-        if (!res.ok) throw new Error('Network error');
-        showSuccess(formId);
-        trackSignup(formId);
-      } catch(e) {
-        btn.textContent = 'Try again';
-        btn.disabled = false;
-        alert('Something went wrong — please try again.');
-      }
-    } else {
-      setTimeout(() => showSuccess(formId), 400);
+    try {
+      const res = await fetch(BEEHIIV_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + BEEHIIV_KEY
+        },
+        body: JSON.stringify({
+          email,
+          utm_source: 'pixvalt_landing',
+          utm_medium: formId,
+          reactivate_existing: false,
+          send_welcome_email: true
+        })
+      });
+      if (!res.ok) throw new Error('API error ' + res.status);
+      showSuccess(formId);
+      trackSignup(formId);
+    } catch(e) {
+      btn.textContent = 'Try again';
+      btn.disabled = false;
+      alert('Something went wrong — please try again.');
     }
   }
 
