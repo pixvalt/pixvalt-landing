@@ -566,6 +566,50 @@
     .footer-links a:hover { color: var(--text); text-decoration: none; }
     .footer-copy { font-size: 0.78rem; color: var(--muted); margin-top: 24px; }
 
+    /* ── Scroll Animations ── */
+    @keyframes navDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to   { transform: translateY(0);     opacity: 1; }
+    }
+    @keyframes heroFade {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+    @keyframes floatGlow {
+      0%, 100% { transform: translateX(-50%) translateY(0);    }
+      50%       { transform: translateX(-50%) translateY(-22px); }
+    }
+
+    nav { animation: navDown 0.55s cubic-bezier(.22,.68,0,1.15) both; }
+    #hero::before { animation: floatGlow 8s ease-in-out infinite; }
+    #hero .badge      { animation: heroFade 0.6s ease 0.15s both; }
+    #hero h1          { animation: heroFade 0.7s ease 0.28s both; }
+    #hero .hero-sub   { animation: heroFade 0.7s ease 0.42s both; }
+    #hero .waitlist-form { animation: heroFade 0.7s ease 0.56s both; }
+    #hero .form-note  { animation: heroFade 0.6s ease 0.68s both; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(38px);
+      transition: opacity 0.65s ease, transform 0.65s cubic-bezier(.22,.68,0,1.12);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-48px);
+      transition: opacity 0.65s ease, transform 0.65s cubic-bezier(.22,.68,0,1.12);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(48px);
+      transition: opacity 0.65s ease, transform 0.65s cubic-bezier(.22,.68,0,1.12);
+    }
+    .reveal.visible,
+    .reveal-left.visible,
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+
     /* ── Responsive ── */
     @media (max-width: 700px) {
       section { padding: 64px 0; }
@@ -1292,6 +1336,69 @@
       document.getElementById('counter').style.display = 'flex';
     }
   });
+
+  // ── Scroll reveal ──
+  (function () {
+    const STAGGER = 85; // ms between each child
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -55px 0px' });
+
+    function watch(el) { io.observe(el); }
+
+    // Section headings — fade up
+    document.querySelectorAll('.section-head').forEach(el => {
+      el.classList.add('reveal');
+      watch(el);
+    });
+
+    // Trust bar items — stagger left to right
+    document.querySelectorAll('.trust-item').forEach((el, i) => {
+      el.classList.add('reveal');
+      el.style.transitionDelay = (i * STAGGER) + 'ms';
+      watch(el);
+    });
+
+    // Mode cards — slide in from sides
+    const modeCards = document.querySelectorAll('.mode-card');
+    if (modeCards[0]) { modeCards[0].classList.add('reveal-left'); watch(modeCards[0]); }
+    if (modeCards[1]) { modeCards[1].classList.add('reveal-right'); watch(modeCards[1]); }
+
+    // Stagger grid / list containers
+    const staggered = [
+      '.cards > .card',
+      '.steps > .step',
+      '.screens-row > *',
+      '.features-grid > .feature-item',
+      '.coming-grid > .coming-item',
+      '.diff-grid > .diff-card',
+      '.security-grid > .security-card',
+      '.faq-list > .faq-item',
+      '.perks > .perk',
+      '.footer-links > *',
+    ];
+
+    staggered.forEach(selector => {
+      document.querySelectorAll(selector).forEach((el, i) => {
+        el.classList.add('reveal');
+        el.style.transitionDelay = (i * STAGGER) + 'ms';
+        watch(el);
+      });
+    });
+
+    // Early access perks & CTA block
+    document.querySelectorAll('#early h2, #early > .container > p, #cta h2, #cta > .container > p').forEach((el, i) => {
+      el.classList.add('reveal');
+      el.style.transitionDelay = (i * 80) + 'ms';
+      watch(el);
+    });
+  })();
 </script>
 
 </body>
