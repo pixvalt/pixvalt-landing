@@ -6,28 +6,22 @@ const MAX_ATTEMPTS = 3;
 const rateMap      = new Map();
 
 function getIP(req) {
-  const forwarded = req.headers['x-forwarded-for'];
-  return (forwarded ? forwarded.split(',')[0] : req.socket?.remoteAddress || 'unknown').trim();
+  const fwd = req.headers['x-forwarded-for'];
+  return (fwd ? fwd.split(',')[0] : req.socket?.remoteAddress || 'unknown').trim();
 }
 
 function isRateLimited(ip) {
   const now   = Date.now();
   const entry = rateMap.get(ip);
-
-  // First request from this IP, or window expired — reset
   if (!entry || now - entry.first > WINDOW_MS) {
     rateMap.set(ip, { count: 1, first: now });
     return false;
   }
-
-  // Within window — check limit
   if (entry.count >= MAX_ATTEMPTS) return true;
-
   entry.count++;
   return false;
 }
 
-// Purge stale entries every 100 requests to prevent memory growth
 let purgeCounter = 0;
 function maybePurge() {
   if (++purgeCounter % 100 !== 0) return;
@@ -49,13 +43,27 @@ export default async function handler(req, res) {
     return res.status(429).json({ error: 'Too many attempts. Please wait and try again.' });
   }
 
-  const { email, utm_medium } = req.body || {};
+  const { email, utm_medium, ref_code } = req.body || {};
 
   if (!email || typeof email !== 'string' || !email.includes('@') || !email.includes('.')) {
     return res.status(400).json({ error: 'Valid email required' });
   }
 
   try {
+    const payload = {
+      email: email.trim().toLowerCase(),
+      utm_source: 'pixvalt_landing',
+      utm_medium: utm_medium || 'unknown',
+      reactivate_existing: false,
+      send_welcome_email: true
+    };
+
+    // Track who referred this subscriber via utm_campaign
+    // This lets us reconstruct the referral chain when migrating to a database
+    if (ref_code && typeof ref_code === 'string' && ref_code.length < 50) {
+      payload.utm_campaign = 'ref_' + ref_code.trim();
+    }
+
     const response = await fetch(
       `https://api.beehiiv.com/v2/publications/${PUB_ID}/subscriptions`,
       {
@@ -64,13 +72,7 @@ export default async function handler(req, res) {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${API_KEY}`
         },
-        body: JSON.stringify({
-          email: email.trim().toLowerCase(),
-          utm_source: 'pixvalt_landing',
-          utm_medium: utm_medium || 'unknown',
-          reactivate_existing: false,
-          send_welcome_email: true
-        })
+        body: JSON.stringify(payload)
       }
     );
 
@@ -81,7 +83,12 @@ export default async function handler(req, res) {
       return res.status(response.status).json({ error: 'Subscription failed' });
     }
 
-    return res.status(201).json({ success: true });
+    // Return the new subscriber's referral code so the browser can build their share link
+    return res.status(201).json({
+      success: true,
+      referral_code: data.data?.referral_code || ''
+    });
+
   } catch (err) {
     console.error('Subscribe handler error:', err);
     return res.status(500).json({ error: 'Internal server error' });

@@ -687,6 +687,54 @@
     }
     .carousel-btn:hover { background: var(--indigo-dim); border-color: var(--indigo); }
 
+    /* ── Referral Success UI ── */
+    .ref-box {
+      max-width: 500px; margin: 0 auto;
+      text-align: center;
+    }
+    .ref-box .ref-title {
+      font-size: 1.15rem; font-weight: 800; margin-bottom: 6px;
+    }
+    .ref-box .ref-sub {
+      font-size: 0.88rem; color: var(--muted); margin-bottom: 22px; line-height: 1.6;
+    }
+    .ref-link-row {
+      display: flex; gap: 8px; align-items: center;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 10px 14px;
+      margin-bottom: 14px; text-align: left;
+    }
+    .ref-link-row span {
+      flex: 1; font-size: 0.83rem; color: var(--indigo-lt);
+      font-family: monospace; overflow: hidden;
+      text-overflow: ellipsis; white-space: nowrap;
+    }
+    .ref-copy-btn {
+      flex-shrink: 0;
+      background: var(--indigo-dim); border: 1px solid rgba(99,102,241,0.35);
+      color: var(--indigo-lt); border-radius: 8px; padding: 6px 14px;
+      font-size: 0.8rem; font-weight: 700; cursor: pointer;
+      transition: background 0.2s, color 0.2s; white-space: nowrap;
+    }
+    .ref-copy-btn:hover { background: var(--indigo); color: #fff; }
+    .share-btns {
+      display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .share-btn {
+      display: flex; align-items: center; gap: 7px;
+      padding: 10px 18px; border-radius: var(--radius);
+      font-size: 0.85rem; font-weight: 700; cursor: pointer;
+      border: none; transition: opacity 0.2s; text-decoration: none;
+    }
+    .share-btn:hover { opacity: 0.82; text-decoration: none; }
+    .share-btn.wa  { background: #25D366; color: #fff; }
+    .share-btn.tw  { background: #000;    color: #fff; }
+    .ref-count {
+      font-size: 0.82rem; color: var(--muted);
+    }
+    .ref-count strong { color: var(--green); font-size: 1rem; }
+
     /* ── Zoom Break ── */
     #zoom-break {
       position: relative; height: 500px;
@@ -760,9 +808,7 @@
       Only you hold the key.
     </p>
 
-    <div class="success-msg" id="hero-success">
-      ✓ You're on the list! We'll email you the moment PixValt launches.
-    </div>
+    <div class="success-msg" id="hero-success"></div>
 
     <form class="waitlist-form" id="hero-form" onsubmit="handleSignup(event,'hero')">
       <input type="email" placeholder="Enter your email" required autocomplete="email" />
@@ -1357,7 +1403,7 @@
     </div>
 
     <div class="success-msg" id="early-success">
-      ✓ You're on the list! We'll email you the moment PixValt launches.
+      ✓ You're on the waitlist! <a href="#hero" style="color:var(--indigo-lt);">Scroll up</a> to grab your referral link and move up the list.
     </div>
 
     <form class="waitlist-form" id="early-form" onsubmit="handleSignup(event,'early')">
@@ -1375,7 +1421,7 @@
     <p>Join the waitlist and be first to know when PixValt launches on Android.</p>
 
     <div class="success-msg" id="cta-success">
-      ✓ You're on the list! We'll email you the moment PixValt launches.
+      ✓ You're on the waitlist! <a href="#hero" style="color:var(--indigo-lt);">Scroll up</a> to grab your referral link and move up the list.
     </div>
 
     <form class="waitlist-form" id="cta-form" onsubmit="handleSignup(event,'cta')">
@@ -1401,17 +1447,75 @@
 
 <script>
   const FORM_IDS = ['hero', 'early', 'cta'];
-  const LS_KEY   = 'pixvalt_subscribed';
+  const LS_KEY   = 'pixvalt_sub';
 
-  // Show success state across ALL forms (called on signup + on page load if already signed up)
-  function showAllSuccess() {
+  // Read incoming referral code from URL (?ref=CODE) and persist across navigation
+  let incomingRef = '';
+  try {
+    incomingRef = new URLSearchParams(window.location.search).get('ref') || sessionStorage.getItem('pv_ref') || '';
+    if (incomingRef) sessionStorage.setItem('pv_ref', incomingRef);
+  } catch(_) {}
+
+  // Build and inject the referral UI into #hero-success
+  function buildReferralUI(refCode) {
+    const link = window.location.origin + '/?ref=' + refCode;
+    const waText  = encodeURIComponent('I just joined the PixValt waitlist 🔒 It\'s a free encrypted photo vault for Android — no ads, no cloud scanning. Join with my link and we both move up the list: ' + link);
+    const twText  = encodeURIComponent('Just joined the @PixValt waitlist 🔒 The first app that ACTUALLY encrypts your photos on Android. Join here: ' + link);
+    const heroMsg = document.getElementById('hero-success');
+    if (!heroMsg) return;
+
+    heroMsg.innerHTML = `
+      <div class="ref-box">
+        <div class="ref-title">✓ You're on the waitlist!</div>
+        <div class="ref-sub">Share your link below — every friend who joins moves you up the list.</div>
+        <div class="ref-link-row">
+          <span id="ref-link-text">${link}</span>
+          <button class="ref-copy-btn" onclick="copyRef('${link}', this)">Copy</button>
+        </div>
+        <div class="share-btns">
+          <a class="share-btn wa" href="https://wa.me/?text=${waText}" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.114.553 4.1 1.52 5.824L0 24l6.335-1.486A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.6a9.6 9.6 0 01-4.896-1.34l-.352-.208-3.624.851.888-3.512-.228-.361A9.6 9.6 0 012.4 12c0-5.301 4.299-9.6 9.6-9.6s9.6 4.299 9.6 9.6-4.299 9.6-9.6 9.6z"/></svg>
+            WhatsApp
+          </a>
+          <a class="share-btn tw" href="https://twitter.com/intent/tweet?text=${twText}" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            Post on X
+          </a>
+        </div>
+        <div class="ref-count">
+          <strong id="ref-count-num">0</strong> friends joined with your link so far.
+        </div>
+      </div>`;
+  }
+
+  function copyRef(link, btn) {
+    navigator.clipboard.writeText(link).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    }).catch(() => {
+      // Fallback for older browsers
+      const el = document.createElement('textarea');
+      el.value = link;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    });
+  }
+
+  function showAllSuccess(refCode) {
     FORM_IDS.forEach(id => {
       const form = document.getElementById(id + '-form');
+      const note = document.querySelector('#' + id + ' .form-note');
       const msg  = document.getElementById(id + '-success');
       if (form) form.style.display = 'none';
+      if (note) note.style.display = 'none';
       if (msg)  msg.style.display  = 'block';
     });
     document.getElementById('counter').style.display = 'flex';
+    if (refCode) buildReferralUI(refCode);
   }
 
   async function handleSignup(event, formId) {
@@ -1426,7 +1530,7 @@
       const res = await fetch('/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, utm_medium: formId })
+        body: JSON.stringify({ email, utm_medium: formId, ref_code: incomingRef })
       });
 
       if (res.status === 429) {
@@ -1438,11 +1542,20 @@
 
       if (!res.ok) throw new Error('API error ' + res.status);
 
-      // Persist so all forms stay hidden on refresh
-      try { localStorage.setItem(LS_KEY, email); } catch(_) {}
+      const data = await res.json();
+      const refCode = data.referral_code || '';
 
-      showAllSuccess();
+      try {
+        localStorage.setItem(LS_KEY, JSON.stringify({ email, refCode }));
+      } catch(_) {}
+
+      showAllSuccess(refCode);
       trackSignup(formId);
+
+      // Scroll hero into view so user sees their referral link
+      if (formId !== 'hero') {
+        setTimeout(() => document.getElementById('hero').scrollIntoView({ behavior: 'smooth' }), 300);
+      }
     } catch(e) {
       btn.textContent = 'Try again';
       btn.disabled = false;
@@ -1462,10 +1575,11 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    // If already subscribed in this browser, show success immediately
     try {
-      if (localStorage.getItem(LS_KEY)) {
-        showAllSuccess();
+      const stored = localStorage.getItem(LS_KEY);
+      if (stored) {
+        const { refCode } = JSON.parse(stored);
+        showAllSuccess(refCode);
       }
     } catch(_) {}
   });
