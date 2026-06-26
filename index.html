@@ -348,6 +348,11 @@
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
     }
+    .stats-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -1095,7 +1100,7 @@
 
 <!-- ── Security Stats Bar ── -->
 <div id="stats-bar">
-  <div class="container">
+  <div class="stats-container">
     <div class="stats-grid">
 
       <div class="stat-card" data-count="256" data-prefix="AES-" data-suffix="">
@@ -1139,6 +1144,7 @@
 </div>
 
 <!-- ── Infinite Zoom Break ── -->
+
 <div id="zoom-break">
   <canvas id="zoom-canvas"></canvas>
   <div class="zoom-text">
