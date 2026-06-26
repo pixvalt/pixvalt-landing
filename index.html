@@ -214,22 +214,30 @@
 
     /* ── Trust Bar ── */
     #trust {
-      padding: 20px 0;
+      padding: 28px 0;
+      border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
       background: var(--surface);
     }
-    .trust-bar {
-      display: flex; align-items: center; justify-content: center;
-      gap: 32px; flex-wrap: wrap;
-    }
     .trust-item {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 0.83rem; color: var(--muted);
+      display: inline-flex; align-items: center; gap: 9px;
+      font-size: 0.88rem; color: var(--muted);
       white-space: nowrap;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 18px;
+      transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+      cursor: default;
     }
-    .trust-item strong { color: var(--text); }
-    .trust-icon { display:flex; align-items:center; justify-content:center; width:16px; height:16px; color:var(--indigo); flex-shrink:0; }
-    .trust-icon svg { width:14px; height:14px; }
+    .trust-item:hover {
+      border-color: rgba(5,150,105,0.45);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(5,150,105,0.1);
+    }
+    .trust-item strong { color: var(--text); font-weight: 700; }
+    .trust-icon { display:flex; align-items:center; justify-content:center; width:18px; height:18px; color:var(--indigo); flex-shrink:0; }
+    .trust-icon svg { width:15px; height:15px; }
     .trust-sep { color: var(--border); font-size: 1.2rem; }
 
     /* ── Section headings ── */
@@ -670,16 +678,17 @@
       content: ''; position: absolute; top: 0; bottom: 0;
       width: 90px; z-index: 2; pointer-events: none;
     }
-    .trust-fade::before { left: 0;  background: linear-gradient(90deg,  var(--surface), transparent); }
-    .trust-fade::after  { right: 0; background: linear-gradient(-90deg, var(--surface), transparent); }
+    .trust-fade::before { left: 0;  background: linear-gradient(90deg,  var(--surface) 0%, transparent 100%); }
+    .trust-fade::after  { right: 0; background: linear-gradient(-90deg, var(--surface) 0%, transparent 100%); }
+    .trust-fade::before, .trust-fade::after { width: 140px; }
     .marquee-track {
       display: flex; width: max-content;
-      animation: marquee 24s linear infinite;
+      animation: marquee 30s linear infinite;
     }
     .marquee-track:hover { animation-play-state: paused; }
     .marquee-set {
       display: flex; align-items: center;
-      gap: 36px; padding-right: 36px; flex-shrink: 0;
+      gap: 10px; padding-right: 10px; flex-shrink: 0;
     }
     @keyframes marquee {
       from { transform: translateX(0);   }
