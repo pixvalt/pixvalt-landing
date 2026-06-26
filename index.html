@@ -22,13 +22,13 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:         #080a10;
+      --bg:         #050508;
       --surface:    #0e1118;
       --surface2:   #131720;
       --border:     #1e2435;
-      --indigo:     #6366f1;
-      --indigo-lt:  #818cf8;
-      --indigo-dim: rgba(99,102,241,0.15);
+      --indigo:     #059669;
+      --indigo-lt:  #10b981;
+      --indigo-dim: rgba(5,150,105,0.15);
       --green:      #34d399;
       --green-dim:  rgba(52,211,153,0.12);
       --amber:      #fbbf24;
@@ -81,20 +81,19 @@
       border-radius: var(--radius);
       font-size: 1rem; font-weight: 700;
       cursor: pointer;
-      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      transition: background 0.2s, transform 0.15s;
       white-space: nowrap;
-      box-shadow: 0 0 0 0 rgba(99,102,241,0);
     }
     .btn-primary:hover {
-      background: #5153d4;
-      box-shadow: 0 0 24px rgba(99,102,241,0.35);
+      background: #047857;
+      transform: translateY(-1px);
     }
     .btn-primary:active { transform: scale(0.97); }
 
     .btn-ghost {
       background: transparent;
       color: var(--indigo-lt);
-      border: 1px solid rgba(99,102,241,0.4);
+      border: 1px solid rgba(5,150,105,0.4);
       padding: 11px 24px;
       border-radius: var(--radius);
       font-size: 0.9rem; font-weight: 600;
@@ -107,7 +106,7 @@
     .badge {
       display: inline-block;
       background: var(--indigo-dim);
-      border: 1px solid rgba(99,102,241,0.3);
+      border: 1px solid rgba(5,150,105,0.3);
       color: var(--indigo-lt);
       font-size: 0.72rem; font-weight: 700;
       letter-spacing: 0.1em; text-transform: uppercase;
@@ -132,7 +131,7 @@
       position: absolute;
       top: -200px; left: 50%; transform: translateX(-50%);
       width: 900px; height: 600px;
-      background: radial-gradient(ellipse, rgba(99,102,241,0.2) 0%, transparent 70%);
+      background: radial-gradient(ellipse, rgba(5,150,105,0.14) 0%, transparent 70%);
       pointer-events: none;
     }
     #hero::after {
@@ -177,7 +176,7 @@
     }
     .waitlist-form input[type="email"]:focus {
       border-color: var(--indigo);
-      box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+      box-shadow: 0 0 0 3px rgba(5,150,105,0.15);
     }
 
     .form-note { font-size: 0.8rem; color: var(--muted); margin-top: 10px; }
@@ -229,7 +228,8 @@
       white-space: nowrap;
     }
     .trust-item strong { color: var(--text); }
-    .trust-icon { font-size: 1rem; }
+    .trust-icon { display:flex; align-items:center; justify-content:center; width:16px; height:16px; color:var(--indigo); flex-shrink:0; }
+    .trust-icon svg { width:14px; height:14px; }
     .trust-sep { color: var(--border); font-size: 1.2rem; }
 
     /* ── Section headings ── */
@@ -262,7 +262,7 @@
       padding: 28px 24px;
       transition: border-color 0.2s;
     }
-    .card:hover { border-color: rgba(99,102,241,0.3); }
+    .card:hover { border-color: rgba(5,150,105,0.2); }
     .card-icon { font-size: 2rem; margin-bottom: 16px; }
     .card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
     .card p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
@@ -285,8 +285,8 @@
       border: 1px solid rgba(52,211,153,0.25);
     }
     .mode-card.vault {
-      background: linear-gradient(135deg, rgba(99,102,241,0.1) 0%, var(--surface) 100%);
-      border: 1px solid rgba(99,102,241,0.3);
+      background: linear-gradient(135deg, rgba(14,165,233,0.08) 0%, var(--surface) 100%);
+      border: 1px solid rgba(14,165,233,0.25);
     }
     .mode-label {
       display: inline-block;
@@ -296,7 +296,7 @@
       margin-bottom: 20px;
     }
     .mode-card.safe .mode-label { background: var(--green-dim); color: var(--green); }
-    .mode-card.vault .mode-label { background: var(--indigo-dim); color: var(--indigo-lt); }
+    .mode-card.vault .mode-label { background: rgba(14,165,233,0.1); color: #38bdf8; }
     .mode-card h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 12px; }
     .mode-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
     .mode-specs { list-style: none; }
@@ -308,7 +308,7 @@
     }
     .mode-specs li:last-child { border-bottom: none; }
     .mode-specs .check { color: var(--green); font-weight: 800; }
-    .mode-specs .lock { color: var(--indigo-lt); font-weight: 800; }
+    .mode-specs .lock { color: #38bdf8; font-weight: 800; }
 
     /* ── How it Works ── */
     #how { background: var(--surface); }
@@ -326,17 +326,18 @@
       border-radius: var(--radius-lg);
       transition: border-color 0.2s, transform 0.2s;
     }
-    .step:hover { border-color: rgba(99,102,241,0.3); transform: translateY(-3px); }
+    .step:hover { border-color: rgba(5,150,105,0.3); transform: translateY(-3px); }
     .step-num {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 52px; height: 52px;
-      background: var(--indigo-dim);
-      border: 1px solid rgba(99,102,241,0.3);
-      border-radius: 50%;
-      font-size: 1.1rem; font-weight: 900;
-      color: var(--indigo-lt);
+      display: block;
+      font-family: 'JetBrains Mono','SF Mono','Cascadia Code','Consolas',monospace;
+      font-size: 0.7rem; font-weight: 700;
+      color: var(--indigo);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
       margin-bottom: 20px;
     }
+    .step-num::before { content: '0'; }
+    .step-num::after { content: ' ·'; color: var(--muted); }
     .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
     .step p { font-size: 0.86rem; color: var(--muted); line-height: 1.7; }
 
@@ -371,7 +372,7 @@
       border-radius: var(--radius-lg);
       transition: border-color 0.2s;
     }
-    .feature-item:hover { border-color: rgba(99,102,241,0.25); }
+    .feature-item:hover { border-color: rgba(5,150,105,0.2); }
     .feature-icon {
       font-size: 1.5rem; flex-shrink: 0;
       width: 44px; height: 44px;
@@ -424,7 +425,7 @@
       overflow: hidden;
       transition: border-color 0.2s;
     }
-    .diff-card:hover { border-color: rgba(99,102,241,0.3); }
+    .diff-card:hover { border-color: rgba(5,150,105,0.2); }
     .diff-half {
       padding: 20px 22px;
     }
@@ -481,7 +482,7 @@
       font-size: 1.15rem; font-weight: 800;
       color: var(--indigo-lt);
       margin-bottom: 8px;
-      font-family: 'Courier New', monospace;
+      font-family: 'JetBrains Mono','SF Mono','Cascadia Code','Consolas','Courier New',monospace;
     }
     .security-card p { font-size: 0.83rem; color: var(--muted); line-height: 1.65; }
 
@@ -519,8 +520,8 @@
     #early {
       text-align: center;
       background: linear-gradient(160deg,
-        rgba(99,102,241,0.12) 0%,
-        rgba(99,102,241,0.04) 60%,
+        rgba(5,150,105,0.08) 0%,
+        rgba(5,150,105,0.03) 60%,
         var(--bg) 100%);
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
@@ -701,9 +702,9 @@
       transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
     }
     .carousel-slide.active .screen-placeholder {
-      transform: scale(1.07);
+      transform: translateY(-6px) scale(1.04);
       border-color: var(--indigo);
-      box-shadow: 0 0 36px rgba(99,102,241,0.3);
+      box-shadow: 0 12px 32px rgba(5,150,105,0.22);
     }
     .carousel-dots {
       display: flex; justify-content: center;
@@ -715,7 +716,7 @@
       cursor: pointer; border: none;
       transition: background 0.3s, width 0.3s;
     }
-    .carousel-dot.active { background: var(--indigo); width: 26px; }
+    .carousel-dot.active { background: var(--indigo); width: 22px; }
     .carousel-nav {
       display: flex; justify-content: center;
       gap: 12px; margin-top: 16px;
@@ -753,7 +754,7 @@
     }
     .ref-copy-btn {
       flex-shrink: 0;
-      background: var(--indigo-dim); border: 1px solid rgba(99,102,241,0.35);
+      background: var(--indigo-dim); border: 1px solid rgba(5,150,105,0.35);
       color: var(--indigo-lt); border-radius: 8px; padding: 6px 14px;
       font-size: 0.8rem; font-weight: 700; cursor: pointer;
       transition: background 0.2s, color 0.2s; white-space: nowrap;
@@ -885,25 +886,25 @@
     <div class="marquee-track">
       <!-- set 1 -->
       <div class="marquee-set">
-        <div class="trust-item"><span class="trust-icon">🔒</span><span><strong>AES-256-CBC</strong> encryption</span></div>
-        <div class="trust-item"><span class="trust-icon">📵</span><span><strong>100% on-device</strong> — no server</span></div>
-        <div class="trust-item"><span class="trust-icon">🚫</span><span><strong>Zero ads</strong> — ever</span></div>
-        <div class="trust-item"><span class="trust-icon">☁️</span><span><strong>Google Drive</strong> backup</span></div>
-        <div class="trust-item"><span class="trust-icon">🇮🇳</span><span>Made for <strong>India</strong></span></div>
-        <div class="trust-item"><span class="trust-icon">🗝️</span><span><strong>Your key</strong> — only yours</span></div>
-        <div class="trust-item"><span class="trust-icon">🛡️</span><span><strong>Play Integrity</strong> verified</span></div>
-        <div class="trust-item"><span class="trust-icon">📂</span><span><strong>.pvlt</strong> proprietary format</span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7" width="10" height="8" rx="1.5"/><path d="M5 7V5a3 3 0 0 1 6 0v2"/></svg></span><span><strong>AES-256-CBC</strong> encryption</span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="1.5" width="8" height="11" rx="1.5"/><path d="M4 10.5h8"/><circle cx="8" cy="12.5" r="0.6" fill="currentColor" stroke="none"/><line x1="2.5" y1="2" x2="13.5" y2="14"/></svg></span><span><strong>100% on-device</strong> — no server</span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="5.5"/><line x1="4" y1="4" x2="12" y2="12"/></svg></span><span><strong>Zero ads</strong> — ever</span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 6.5a4 4 0 0 0-3.5-4.8A4.5 4.5 0 1 0 3.5 6.5"/><polyline points="8 6.5 8 11"/><polyline points="6 9 8 11 10 9"/></svg></span><span><strong>Google Drive</strong> backup</span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5.5" cy="8" r="2.5"/><path d="M8 8h5.5M11 6v4"/></svg></span><span>Made for <strong>India</strong></span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5.5" cy="8" r="2.5"/><path d="M8 8h6M12 6v4"/></svg></span><span><strong>Your key</strong> — only yours</span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1.5L14 4v4.5c0 3-2.5 4.8-6 6-3.5-1.2-6-3-6-6V4z"/><polyline points="5.5 8 7 9.5 10.5 6"/></svg></span><span><strong>Play Integrity</strong> verified</span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 5.5C2 4.7 2.7 4 3.5 4H6l1.5 2H12.5C13.3 6 14 6.7 14 7.5v5c0 .8-.7 1.5-1.5 1.5h-9C2.7 14 2 13.3 2 12.5z"/></svg></span><span><strong>.pvlt</strong> proprietary format</span></div>
       </div>
       <!-- set 2 — duplicate for seamless loop -->
       <div class="marquee-set">
-        <div class="trust-item"><span class="trust-icon">🔒</span><span><strong>AES-256-CBC</strong> encryption</span></div>
-        <div class="trust-item"><span class="trust-icon">📵</span><span><strong>100% on-device</strong> — no server</span></div>
-        <div class="trust-item"><span class="trust-icon">🚫</span><span><strong>Zero ads</strong> — ever</span></div>
-        <div class="trust-item"><span class="trust-icon">☁️</span><span><strong>Google Drive</strong> backup</span></div>
-        <div class="trust-item"><span class="trust-icon">🇮🇳</span><span>Made for <strong>India</strong></span></div>
-        <div class="trust-item"><span class="trust-icon">🗝️</span><span><strong>Your key</strong> — only yours</span></div>
-        <div class="trust-item"><span class="trust-icon">🛡️</span><span><strong>Play Integrity</strong> verified</span></div>
-        <div class="trust-item"><span class="trust-icon">📂</span><span><strong>.pvlt</strong> proprietary format</span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7" width="10" height="8" rx="1.5"/><path d="M5 7V5a3 3 0 0 1 6 0v2"/></svg></span><span><strong>AES-256-CBC</strong> encryption</span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="1.5" width="8" height="11" rx="1.5"/><path d="M4 10.5h8"/><circle cx="8" cy="12.5" r="0.6" fill="currentColor" stroke="none"/><line x1="2.5" y1="2" x2="13.5" y2="14"/></svg></span><span><strong>100% on-device</strong> — no server</span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="5.5"/><line x1="4" y1="4" x2="12" y2="12"/></svg></span><span><strong>Zero ads</strong> — ever</span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 6.5a4 4 0 0 0-3.5-4.8A4.5 4.5 0 1 0 3.5 6.5"/><polyline points="8 6.5 8 11"/><polyline points="6 9 8 11 10 9"/></svg></span><span><strong>Google Drive</strong> backup</span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5.5" cy="8" r="2.5"/><path d="M8 8h5.5M11 6v4"/></svg></span><span>Made for <strong>India</strong></span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5.5" cy="8" r="2.5"/><path d="M8 8h6M12 6v4"/></svg></span><span><strong>Your key</strong> — only yours</span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1.5L14 4v4.5c0 3-2.5 4.8-6 6-3.5-1.2-6-3-6-6V4z"/><polyline points="5.5 8 7 9.5 10.5 6"/></svg></span><span><strong>Play Integrity</strong> verified</span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 5.5C2 4.7 2.7 4 3.5 4H6l1.5 2H12.5C13.3 6 14 6.7 14 7.5v5c0 .8-.7 1.5-1.5 1.5h-9C2.7 14 2 13.3 2 12.5z"/></svg></span><span><strong>.pvlt</strong> proprietary format</span></div>
       </div>
     </div>
   </div>
@@ -1704,10 +1705,10 @@
         const h     = baseH * sc;
         const r     = Math.max(1, 22 * (1 - t * 0.85));
 
-        // Color shift: indigo (240°) → violet (270°) → cyan (190°)
+        // Color shift: emerald (150°) → teal (170°) → cyan (190°)
         const hue  = phase < 0.5
-          ? 240 + phase * 2 * 50          // 240 → 290
-          : 290 - (phase - 0.5) * 2 * 100; // 290 → 190
+          ? 150 + phase * 2 * 20          // 150 → 170
+          : 170 + (phase - 0.5) * 2 * 20; // 170 → 190
         const lit  = 55 + t * 15;
 
         // Fade in from nothing, hold, fade out before edge
@@ -1746,7 +1747,7 @@
     const canvas = document.getElementById('hero-canvas');
     if (!canvas || !window.matchMedia('(pointer: fine)').matches) return;
     const ctx = canvas.getContext('2d');
-    const COLORS = ['#6366f1','#818cf8','#a855f7','#06b6d4','#34d399','#f472b6'];
+    const COLORS = ['#059669','#10b981','#34d399','#6ee7b7','#0ea5e9','#06b6d4'];
     const trail = [];
     const MAX = 55;
 
