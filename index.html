@@ -873,9 +873,9 @@
     </form>
     <p class="form-note">No spam. <strong>First 200 get Pro free.</strong> Unsubscribe anytime.</p>
 
-    <div class="counter-wrap" id="counter" style="display:none;">
+    <div class="counter-wrap" id="counter" style="display:flex;">
       <div class="counter-dot"></div>
-      <span><strong id="count-num">0</strong> people already on the waitlist</span>
+      <span><strong id="count-num">—</strong> people already on the waitlist</span>
     </div>
   </div>
 </section>
@@ -1649,6 +1649,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
+    // Restore signed-up state for returning visitors
     try {
       const stored = localStorage.getItem(LS_KEY);
       if (stored) {
@@ -1656,6 +1657,16 @@
         showAllSuccess(refCode);
       }
     } catch(_) {}
+
+    // Fetch real waitlist count from Supabase
+    fetch('/api/count')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data && typeof data.count === 'number' && data.count > 0) {
+          document.getElementById('count-num').textContent = data.count.toLocaleString();
+        }
+      })
+      .catch(() => {});
   });
 
   // ── Infinite Zoom (tunnel) ──
